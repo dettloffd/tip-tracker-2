@@ -10,7 +10,7 @@ dotenv_1.default.config();
 const jwtMiddleware = (req, res, next) => {
     // Allow options requests to proceed for CORS pre-flight 
     if (req.method === 'OPTIONS') {
-        next();
+        return next();
     }
     try {
         // Check for the existence of Authorization header

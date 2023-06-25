@@ -145,6 +145,7 @@ const signup = async (req: Request, res: Response, next: NextFunction) => {
     return res.json({
       success: true,
       message: "Logged in!",
+      existingUser,
     //   existingUser,
       // user: existingUser.toObject(),
       // userId: existingUser.id,

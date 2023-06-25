@@ -8,11 +8,14 @@ const { validationResult } = require("express-validator");
 let pool = db_1.default.getPgClient();
 let USER_TOKEN_KEY = 'supersecret_dont_share';
 const getEntriesByUserId = async (req, res, next) => {
-    // const user_id: number = 1;
     const user_id = req.params.uid;
     let entries;
     try {
-        const result = await pool.query('SELECT * FROM entries WHERE user_id = $1', [user_id]);
+        const result = await pool.query(`
+          SELECT entry_id, user_id, CAST(tips_total AS FLOAT), num_transactions, created_at, updated_at,
+            TO_CHAR(date, 'YYYY-MM-DD') as date
+          FROM entries 
+          WHERE user_id = $1`, [user_id]);
         entries = result.rows;
     }
     catch (err) {
@@ -41,7 +44,11 @@ const getEntriesByUserIdBetweenDates = async (req, res, next) => {
     const userId = req.params.uid;
     let entries;
     try {
-        const result = await pool.query('SELECT * FROM entries WHERE user_id = $1 AND date BETWEEN $2 AND $3', [userId, startDate, endDate]);
+        const result = await pool.query(`
+          SELECT entry_id, user_id, CAST(tips_total AS FLOAT), num_transactions, created_at, updated_at,
+            TO_CHAR(date, 'YYYY-MM-DD') as date
+          FROM entries 
+          WHERE user_id = $1 AND date BETWEEN $2 AND $3`, [userId, startDate, endDate]);
         entries = result.rows;
     }
     catch (err) {

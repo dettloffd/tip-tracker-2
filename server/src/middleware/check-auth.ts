@@ -11,7 +11,7 @@ export const jwtMiddleware = (
 ): void | Response => {
   // Allow options requests to proceed for CORS pre-flight 
   if (req.method === 'OPTIONS') {
-    next();
+    return next();
   }
 
   try {

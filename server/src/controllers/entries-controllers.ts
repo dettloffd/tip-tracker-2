@@ -14,18 +14,21 @@ interface CustomRequest extends Request {
 }
 
 const getEntriesByUserId = async (req: Request, res: Response, next: NextFunction) => {
-    // const user_id: number = 1;
     const user_id = req.params.uid;
     let entries: Entry[] | null;
 
     try {
-        const result = await pool.query('SELECT * FROM entries WHERE user_id = $1', [user_id]);
+        const result = await pool.query(`
+          SELECT entry_id, user_id, CAST(tips_total AS FLOAT), num_transactions, created_at, updated_at,
+            TO_CHAR(date, 'YYYY-MM-DD') as date
+          FROM entries 
+          WHERE user_id = $1`, [user_id]
+        );
         entries = result.rows;
     } catch (err) {
         return res.status(500).json({
             success: false,
-            message:
-                "Something went wrong; unable to locate data with provided arguments",
+            message: "Something went wrong; unable to locate data with provided arguments",
         });
     }
 
@@ -35,7 +38,7 @@ const getEntriesByUserId = async (req: Request, res: Response, next: NextFunctio
             message: `No entries exist with provided user ID`,
         });
     }
-
+    
     return res.json({
         success: true,
         count: entries.length,
@@ -53,14 +56,19 @@ const getEntriesByUserIdBetweenDates = async (req: Request, res: Response, next:
     let entries: Entry[] | null;
 
     try {
-        const result = await pool.query('SELECT * FROM entries WHERE user_id = $1 AND date BETWEEN $2 AND $3', [userId, startDate, endDate]);
+        const result = await pool.query(`
+          SELECT entry_id, user_id, CAST(tips_total AS FLOAT), num_transactions, created_at, updated_at,
+            TO_CHAR(date, 'YYYY-MM-DD') as date
+          FROM entries 
+          WHERE user_id = $1 AND date BETWEEN $2 AND $3`, 
+          [userId, startDate, endDate]
+        );
         entries = result.rows;
     } catch (err) {
         console.log(err)
         return res.status(500).json({
             success: false,
-            message:
-                "Something went wrong; unable to locate data with provided arguments",
+            message: "Something went wrong; unable to locate data with provided arguments",
         });
     }
 
@@ -77,7 +85,6 @@ const getEntriesByUserIdBetweenDates = async (req: Request, res: Response, next:
         message: `Retrieval successful. [${entries.length}] entries located with provided user ID.`,
         entries: entries,
     });
-
 }
 
 const createEntry = async (req: CustomRequest, res: Response, next: NextFunction) => {

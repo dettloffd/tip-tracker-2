@@ -1,42 +1,41 @@
-import { useContext } from "react";
+import { useContext } from "react"
 //
-import { Box, Flex, Text } from "@chakra-ui/react";
-import { format, parseISO } from "date-fns";
-import { useQuery } from "react-query";
-import { ResponsiveTimeRange } from "@nivo/calendar";
-import MoonLoader from "react-spinners/MoonLoader";
+import { Box, Flex, Text } from "@chakra-ui/react"
+import { format, parseISO } from "date-fns"
+import { useQuery } from "react-query"
+import { ResponsiveTimeRange } from "@nivo/calendar"
+import MoonLoader from "react-spinners/MoonLoader"
 //
-import { getAllEntriesByUserIdBetweenDates } from "../api/entriesApi";
-import { AuthContext } from "../../auth/AuthContext";
-
+import { getAllEntriesByUserIdBetweenDates } from "../api/entriesApi"
+import { AuthContext } from "../../auth/AuthContext"
 
 export default function HeatMap({ numDays, mapwidth, mapheight }) {
-  const today = new Date();
-  const { userId } = useContext(AuthContext);
+  const today = new Date()
+  const { userId } = useContext(AuthContext)
 
   function shiftDate(date, numDays) {
-    const newDate = new Date(date);
-    newDate.setDate(newDate.getDate() + numDays);
-    return newDate;
+    const newDate = new Date(date)
+    newDate.setDate(newDate.getDate() + numDays)
+    return newDate
   }
 
   //   startDate -> shiftDate function gives date numDays before today, it's parsed as ISO, then formatted.
   let startDate = format(
     parseISO(shiftDate(today, -numDays).toISOString()),
     "yyyy-MM-dd"
-  );
+  )
 
   // Shifting date by + 1 will ensure today's date is shown on the heatmap
   // due to the way mongoDb interprets to and from dates
   let endDate = format(
     parseISO(shiftDate(today, +1).toISOString()),
     "yyyy-MM-dd"
-  );
+  )
 
   const { data, isLoading } = useQuery(
     ["heatMapDates", { userId }, { startDate, endDate }],
     getAllEntriesByUserIdBetweenDates
-  );
+  )
 
   const entryTooltip = ({ day, tipsTotal, numTransactions }) => {
     return (
@@ -47,30 +46,30 @@ export default function HeatMap({ numDays, mapwidth, mapheight }) {
         bgColor="gray.900"
         p={5}
       >
-        <Text>Date: {format(parseISO (day),"EEEE, yyyy-MM-dd" )}</Text>
+        <Text>Date: {format(parseISO(day), "EEEE, yyyy-MM-dd")}</Text>
         <Text>Total tips: {tipsTotal}</Text>
         <Text>Number of transactions: {numTransactions}</Text>
         <Text>Average Tip: {(tipsTotal / numTransactions).toFixed(2)}</Text>
       </Box>
-    );
-  };
+    )
+  }
 
-  let heatmapValues = [];
+  let heatmapValues = []
 
   if (data) {
-
     if (data.data.entries) {
-      let returnEntries = data.data.entries;
+      let returnEntries = data.data.entries
       // Timerange is expecting "Day" and "value" fields
       returnEntries.forEach((entry) =>
         heatmapValues.push({
-          day: entry.date,
+        //   day: formatDate(entry.date),
+        day: entry.date,
           value: 1,
-          tipsTotal: entry.tipsTotal,
-          numTransactions: entry.numTransactions,
+          tipsTotal: entry.tips_total,
+          numTransactions: entry.num_transactions,
         })
-      );
-    } 
+      )
+    }
     //  if no entries, leave heatmapValus as empty array
   }
 
@@ -79,7 +78,7 @@ export default function HeatMap({ numDays, mapwidth, mapheight }) {
       <Flex width="100%" justify={"center"} p={6}>
         <MoonLoader size={200} color={"#4FD1C5"} loading={true} />
       </Flex>
-    );
+    )
   }
 
   return (
@@ -108,5 +107,5 @@ export default function HeatMap({ numDays, mapwidth, mapheight }) {
         {`( Previous ${numDays} days )`}
       </Text>
     </>
-  );
+  )
 }

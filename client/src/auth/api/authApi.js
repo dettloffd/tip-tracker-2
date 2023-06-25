@@ -23,6 +23,7 @@ export const authSubmitHandler = (authData) => {
         });
         //only call login if attempt to send request is successful
         //response user ID send from backend; see users
+        console.log('response from authApi.js: ', response)
         return response;
       
     } else {
