@@ -15,12 +15,12 @@ const jwtMiddleware = (req, res, next) => {
     try {
         // Check for the existence of Authorization header
         if (!req.headers.authorization) {
-            throw new Error();
+            throw new Error('Missing authorization header!');
         }
         const authHeader = req.headers.authorization.split(' ');
         // Check if the Authorization header is correctly structured
         if (authHeader.length !== 2 || authHeader[0].toLowerCase() !== 'bearer') {
-            throw new Error();
+            throw new Error('Invalid authorization header structure!');
         }
         const token = authHeader[1];
         // Verify the token
@@ -37,6 +37,7 @@ const jwtMiddleware = (req, res, next) => {
         return res.status(403).json({
             success: false,
             message: 'Authentication failed!',
+            error: err.message ? err.message : 'Unknown error',
         });
     }
 };

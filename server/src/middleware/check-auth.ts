@@ -17,14 +17,14 @@ export const jwtMiddleware = (
   try {
     // Check for the existence of Authorization header
     if (!req.headers.authorization) {
-      throw new Error();
+      throw new Error('Missing authorization header!');
     }
 
     const authHeader = req.headers.authorization.split(' ');
 
     // Check if the Authorization header is correctly structured
     if (authHeader.length !== 2 || authHeader[0].toLowerCase() !== 'bearer') {
-      throw new Error();
+      throw new Error('Invalid authorization header structure!');
     }
 
     const token = authHeader[1];
@@ -40,10 +40,11 @@ export const jwtMiddleware = (
     // Pass the user data along
     req.body.userData = { userId: decodedToken.userId };
     next();
-  } catch (err) {
+  } catch (err: any) {
     return res.status(403).json({
       success: false,
       message: 'Authentication failed!',
+      error: err.message? err.message : 'Unknown error',
     });
   }
 };

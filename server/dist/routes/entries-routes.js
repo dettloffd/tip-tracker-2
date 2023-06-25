@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const { check } = require('express-validator');
 const express_1 = __importDefault(require("express"));
+const check_auth_1 = require("../middleware/check-auth");
 const router = express_1.default.Router();
 //
 // const checkAuth = require("../middleware/check-auth");
@@ -16,7 +17,7 @@ router.get("/user/:uid/between", entriesControllers.getEntriesByUserIdBetweenDat
 // router.get("/between", entriesControllers.getAllEntriesBetweenDates)
 // // ^ No user
 // router.get("/user/:uid", entriesControllers.getEntriesByUserId);
-// router.use(jwtMiddleware);
+router.use(check_auth_1.jwtMiddleware);
 // Place jwtMiddleware here - everything after this part must be authenticated
 // *** The routes above this middleware require no authentication
 router.patch("/:eid", [check("date").not().isEmpty(), check("numTransactions").not().isEmpty(), check("tipsTotal").not().isEmpty()], entriesControllers.editEntry);

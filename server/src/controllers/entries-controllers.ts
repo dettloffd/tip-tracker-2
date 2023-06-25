@@ -81,9 +81,9 @@ const getEntriesByUserIdBetweenDates = async (req: Request, res: Response, next:
 }
 
 const createEntry = async (req: CustomRequest, res: Response, next: NextFunction) => {
-    // const { date, numTransactions, tipsTotal } = req.body;
-    const { date, numTransactions, tipsTotal, creator } = req.body;
-    // const creator = req.userData.userId
+    const { date, numTransactions, tipsTotal } = req.body;
+    // const { date, numTransactions, tipsTotal, creator } = req.body;
+    const creator = req.body.userData.userId
 
     let user: User | undefined;
     try {

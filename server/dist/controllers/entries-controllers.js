@@ -65,9 +65,9 @@ const getEntriesByUserIdBetweenDates = async (req, res, next) => {
     });
 };
 const createEntry = async (req, res, next) => {
-    // const { date, numTransactions, tipsTotal } = req.body;
-    const { date, numTransactions, tipsTotal, creator } = req.body;
-    // const creator = req.userData.userId
+    const { date, numTransactions, tipsTotal } = req.body;
+    // const { date, numTransactions, tipsTotal, creator } = req.body;
+    const creator = req.body.userData.userId;
     let user;
     try {
         const userResult = await pool.query('SELECT * FROM users WHERE user_id = $1', [creator]);

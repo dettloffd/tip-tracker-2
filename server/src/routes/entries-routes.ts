@@ -20,7 +20,7 @@ router.get("/user/:uid/between", entriesControllers.getEntriesByUserIdBetweenDat
 
 // router.get("/user/:uid", entriesControllers.getEntriesByUserId);
 
-// router.use(jwtMiddleware);
+router.use(jwtMiddleware);
 // Place jwtMiddleware here - everything after this part must be authenticated
 // *** The routes above this middleware require no authentication
 
