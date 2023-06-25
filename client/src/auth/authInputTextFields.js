@@ -12,13 +12,13 @@ export const authInputTextFields = {
       type: "password",
       label: "Password",
       helper: "Enter password with 8+ characters",
-    },
-    {
-        id: "username",
-        type: "string",
-        label: "Username",
-        helper: "Enter a valid username",
-      },
+    }
+    // {
+    //     id: "username",
+    //     type: "string",
+    //     label: "Username",
+    //     helper: "Enter a valid username",
+    //   },
   ],
 
   authLogin: [
@@ -38,11 +38,11 @@ export const authInputTextFields = {
 };
 
 export const authSignupTextFields = [
-  {
-    id: "username",
-    type: "string",
-    label: "Username",
-  },
+//   {
+//     id: "username",
+//     type: "string",
+//     label: "Username",
+//   },
   {
     id: "email",
     type: "email",

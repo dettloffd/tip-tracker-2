@@ -31,7 +31,6 @@ export const authSubmitHandler = (authData) => {
           url: `${process.env.REACT_APP_SERVER_URL}/user/signup`,
           method: "POST",
           data: {
-            username: userData.username,
             email: userData.email,
             password: userData.password
           },

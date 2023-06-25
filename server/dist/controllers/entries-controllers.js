@@ -168,7 +168,6 @@ const editEntry = async (req, res, next) => {
 const deleteEntry = async (req, res, next) => {
     const entryId = req.params.eid;
     const userId = req.body.userData.userId;
-    // const { userId } = req.body;
     let entry;
     try {
         const result = await pool.query('SELECT * FROM entries WHERE entry_id = $1 AND user_id = $2', [entryId, userId]);

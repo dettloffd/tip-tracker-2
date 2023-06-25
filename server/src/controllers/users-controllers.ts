@@ -69,7 +69,7 @@ const signup = async (req: Request, res: Response, next: NextFunction) => {
     
     let token;
     try {
-      token = jwt.sign({ userId: createdUser.id, email: createdUser.email }, `${USER_TOKEN_KEY}`, { expiresIn: "1h" });
+      token = jwt.sign({ userId: createdUser.user_id, email: createdUser.email }, `${USER_TOKEN_KEY}`, { expiresIn: "1h" });
     } catch (err) {
         console.error('Error signing token:', err);
       return res.status(500).json({
