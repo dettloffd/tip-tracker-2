@@ -41,11 +41,13 @@ const Auth = () => {
 
   const { isLoading, mutate } = useMutation(
     async (authData) => {
+        console.log(authData)
       const response = await authSubmitHandler(authData);
+      console.log(response)
       if (isLoginMode) {
-        auth.login(response.data.existingUser._id, response.data.token);
+        auth.login(response.data.existingUser.user_id, response.data.token);
       } else {
-        auth.login(response.data.createdUser._id, response.data.token);
+        auth.login(response.data.createdUser.user_id, response.data.token);
       }
       return response;
       // response is being returned to the onSuccess and onError functions below

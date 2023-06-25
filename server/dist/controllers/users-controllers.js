@@ -130,6 +130,7 @@ const login = async (req, res, next) => {
     return res.json({
         success: true,
         message: "Logged in!",
+        existingUser,
         //   existingUser,
         // user: existingUser.toObject(),
         // userId: existingUser.id,

@@ -34,22 +34,22 @@ const avgVarByTimeBetweenDates = async (req, res, next) => {
             d.day, 
             d.month, 
             d.year,
-            ROUND((e.tips_total::float / NULLIF(e.num_transactions, 0))::numeric, 2) AS avgTip
+            ROUND((e.tips_total::float / NULLIF(e.num_transactions, 0))::numeric, 2) AS avg_tip
           FROM Entries e
           JOIN date_cte d ON e.entry_id = d.entry_id
           WHERE user_id = $1 AND date >= $2 AND date <= $3
         )
         SELECT 
           s.${timeVar}, 
-          ROUND(AVG(s.${statVar})::numeric, 2) AS "${statVar}"
-        FROM something s
+          CAST(ROUND(AVG(s.${convertStatVar(statVar)})::numeric, 2) AS float) AS "${statVar}"
+          FROM something s
         GROUP BY s.${timeVar};
       `;
         const queryValues = [userId, startDate, endDate];
         results = await pool.query(queryText, queryValues);
     }
     catch (err) {
-        console.error(err);
+        //   console.error(err);
         res.status(500).json({
             success: false,
             message: "Server Error! Please try again later.",
@@ -65,7 +65,6 @@ const avgVarByTimeBetweenDates = async (req, res, next) => {
     }
     const xKey = timeVar;
     const yKey = statVar;
-    console.log(statVar);
     // const sortedData = [...results.rows].sort((a, b) => Number(a[yKey]) - Number(b[yKey]));
     const sortedData = [...results.rows].sort((a, b) => (a[yKey]) - (b[yKey]));
     const low = sortedData[0];
@@ -82,6 +81,9 @@ const avgVarByTimeBetweenDates = async (req, res, next) => {
 const avgVarByTimeGetAll = async (req, res, next) => {
     const { statVar, timeVar } = req.query;
     const userId = req.params.uid;
+    // if(statVar === 'avgTip'){
+    //     statVar === 'avg_tip'
+    // };
     // check if statVar and timeVar are valid
     const validStatVars = ["numTransactions", "avgTip", "tipsTotal"];
     const validTimeVars = ["day", "month", "year"];
@@ -108,15 +110,15 @@ const avgVarByTimeGetAll = async (req, res, next) => {
             d.day, 
             d.month, 
             d.year,
-            ROUND((e.tips_total::float / NULLIF(e.num_transactions, 0))::numeric, 2) AS avgTip
+            ROUND((e.tips_total::float / NULLIF(e.num_transactions, 0))::numeric, 2) AS avg_tip
           FROM Entries e
           JOIN date_cte d ON e.entry_id = d.entry_id
           WHERE user_id = $1
         )
         SELECT 
           s.${timeVar}, 
-          ROUND(AVG(s.${statVar})::numeric, 2) AS "${statVar}"
-        FROM something s
+          CAST(ROUND(AVG(s.${convertStatVar(statVar)})::numeric, 2) AS float) AS "${statVar}"
+          FROM something s
         GROUP BY s.${timeVar};
       `;
         const queryValues = [userId];
@@ -139,7 +141,6 @@ const avgVarByTimeGetAll = async (req, res, next) => {
     }
     const xKey = timeVar;
     const yKey = statVar;
-    console.log(statVar);
     // const sortedData = [...results.rows].sort((a, b) => Number(a[yKey]) - Number(b[yKey]));
     const sortedData = [...results.rows].sort((a, b) => (a[yKey]) - (b[yKey]));
     const low = sortedData[0];
@@ -152,6 +153,24 @@ const avgVarByTimeGetAll = async (req, res, next) => {
         params: { statVar, timeVar },
         //   dateStuff: { startDate, endDate },
     });
+};
+const toSnakeCase = (str) => {
+    return str.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`);
+};
+const convertStatVar = (statVar) => {
+    const statVarMap = {
+        "numTransactions": "num_transactions",
+        "avgTip": "avg_tip",
+        "tipsTotal": "tips_total"
+    };
+    if (!(statVar in statVarMap)) {
+        // choose one of the following options:
+        // throw an error
+        throw new Error(`Invalid statVar: ${statVar}`);
+        // or return a default value
+        // return 'default_value';
+    }
+    return statVarMap[statVar];
 };
 exports.avgVarByTimeBetweenDates = avgVarByTimeBetweenDates;
 exports.avgVarByTimeGetAll = avgVarByTimeGetAll;

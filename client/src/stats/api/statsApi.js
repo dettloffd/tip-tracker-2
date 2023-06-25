@@ -14,7 +14,6 @@ export const fetchChartDataBetweenDates = async ({ queryKey }) => {
       data: null,
       headers: {},
     });
-    console.log(response)
     return response;
   } catch (err){
     throw err;
