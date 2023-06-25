@@ -127,11 +127,9 @@ const editEntry = async (req, res, next) => {
             message: "Invalid inputs passed! Check data and try again",
         });
     }
-    const { date, numTransactions, tipsTotal, userId } = req.body;
+    const { date, numTransactions, tipsTotal } = req.body;
     const entryId = req.params.eid;
-    // const { date, numTransactions, tipsTotal } = req.body;
-    // const userId = req.userData.userId; 
-    // After we get JWT set up, we can use
+    const userId = req.body.userData.userId;
     let entry;
     try {
         const result = await pool.query('SELECT * FROM entries WHERE entry_id = $1 AND user_id = $2', [entryId, userId]);
@@ -169,8 +167,8 @@ const editEntry = async (req, res, next) => {
 };
 const deleteEntry = async (req, res, next) => {
     const entryId = req.params.eid;
-    // const userId = req.userData.userId;
-    const { userId } = req.body;
+    const userId = req.body.userData.userId;
+    // const { userId } = req.body;
     let entry;
     try {
         const result = await pool.query('SELECT * FROM entries WHERE entry_id = $1 AND user_id = $2', [entryId, userId]);

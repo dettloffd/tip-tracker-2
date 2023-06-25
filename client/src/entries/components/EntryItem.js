@@ -28,7 +28,8 @@ import DeleteEntryForm from "./DeleteEntryForm";
 
 const entryIcons = [MdToday, MdReceipt, MdAttachMoney, MdOutlinePriceCheck];
 
-const EntryItem = ({ numTransactions, date, tipsTotal, _id }) => {
+const EntryItem = ({ num_transactions, date, tips_total, entry_id }) => {
+
   const { token } = useContext(AuthContext);
   const { onClose } = useDisclosure();
 
@@ -40,16 +41,16 @@ const EntryItem = ({ numTransactions, date, tipsTotal, _id }) => {
   }
 
   const dataRows = [
-    mapEntryData("Number of Transactions", numTransactions),
-    mapEntryData("Tips Total", tipsTotal),
-    mapEntryData("Average Tip", (tipsTotal / numTransactions).toFixed(2)),
+    mapEntryData("Number of Transactions", num_transactions),
+    mapEntryData("Tips Total", tips_total),
+    mapEntryData("Average Tip", (tips_total / num_transactions).toFixed(2)),
   ];
 
   return (
     <>
       {isDeleting && (
         <ModalContainer
-          modalContent={<DeleteEntryForm _id={_id} token={token} />}
+          modalContent={<DeleteEntryForm _id={entry_id} token={token} />}
           isOpen={isDeleting}
           onClose={onClose}
           toggleOpenState={toggleDeleting}
@@ -63,9 +64,9 @@ const EntryItem = ({ numTransactions, date, tipsTotal, _id }) => {
           modalContent={
             <EditEntryInputForm
               date={date}
-              numTransactions={numTransactions}
-              tipsTotal={tipsTotal}
-              _id={_id}
+              numTransactions={num_transactions}
+              tipsTotal={tips_total}
+              _id={entry_id}
               token={token}
             />
           }

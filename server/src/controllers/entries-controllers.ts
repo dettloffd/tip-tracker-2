@@ -151,13 +151,9 @@ const editEntry = async (req: CustomRequest, res: Response, next: NextFunction) 
         });
     }
 
-    const { date, numTransactions, tipsTotal, userId } = req.body;
+    const { date, numTransactions, tipsTotal } = req.body;
     const entryId = req.params.eid;
-
-
-    // const { date, numTransactions, tipsTotal } = req.body;
-    // const userId = req.userData.userId; 
-    // After we get JWT set up, we can use
+    const userId = req.body.userData.userId
 
     let entry: Entry | undefined;
     try {
@@ -200,9 +196,8 @@ const editEntry = async (req: CustomRequest, res: Response, next: NextFunction) 
 
 const deleteEntry = async (req: CustomRequest, res: Response, next: NextFunction) => {
     const entryId = req.params.eid;
-    // const userId = req.userData.userId;
+    const userId = req.body.userData.userId;
 
-    const { userId } = req.body;
   
     let entry: Entry | undefined;
     try {
