@@ -41,9 +41,7 @@ const Auth = () => {
 
   const { isLoading, mutate } = useMutation(
     async (authData) => {
-        console.log(authData)
       const response = await authSubmitHandler(authData);
-      console.log(response)
       if (isLoginMode) {
         auth.login(response.data.existingUser.user_id, response.data.token);
       } else {
@@ -66,8 +64,8 @@ const Auth = () => {
   const onAuthSubmit = (values, { resetForm }) => {
     const userData = {
       email: values.email,
-      password: values.password,
-      username: values.username,
+      password: values.password
+    //   username: values.username,
     };
     mutate({ userData: userData, isLoginMode: isLoginMode });
     resetForm();
@@ -79,7 +77,7 @@ const Auth = () => {
 
   // FOR DEMO PURPOSES
   const initialFormState = {
-    username: "demo",
+    // username: "demo",
     email: "demo@demo.com",
     password: "demo1234",
   };
