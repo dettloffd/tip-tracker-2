@@ -66,10 +66,10 @@ const AppHome = () => {
                     </Link>
                   </Flex>
                   <Divider mb={5} />
-                  {/* <EntryLog
+                  <EntryLog
                     numResults={10}
                     dateRange={{ startDate: "", endDate: "" }}
-                  /> */}
+                  />
                 </Box>
               </Flex>
 

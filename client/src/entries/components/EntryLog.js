@@ -59,7 +59,7 @@ const EntryLog = ({ numResults, dateRange }) => {
             <List flexBasis={"100%"}>
               {entriesToDisplay.map((entry) => (
                 <>
-                  <EntryItem {...entry} key={entry._id} />
+                  <EntryItem {...entry} key={entry.entry_id} />
                 </>
               ))}
             </List>
