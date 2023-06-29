@@ -14,6 +14,8 @@ server/node_modules
 /build
 */dist
 
+*/logs
+
 # misc
 .DS_Store
 .env

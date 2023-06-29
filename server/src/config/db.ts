@@ -1,5 +1,6 @@
 import { Client } from 'pg';
 import dotenv from 'dotenv';
+import { logger } from '../util/Logger';
 
 dotenv.config()
 
@@ -22,11 +23,11 @@ class DbConn {
     async connect() {
         try {
             await this.pgClient.connect();
-            console.log('Connected to DB');
+            logger.info('Connected to DB');
             // const result = await pool.query('SELECT * FROM entries');
             // let pool = dbInstance.getPgClient();
         } catch (err) {
-            console.log(err);
+            logger.error(err)
         }
     }
 

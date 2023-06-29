@@ -1,4 +1,5 @@
 import express, { Request, Response, NextFunction } from "express";
+import { logger } from "./util/Logger";
 const pg = require("pg");
 const path = require('path');
 
@@ -34,7 +35,6 @@ app.use("/api/entries", entriesRoutes);
 app.use("/api/user", usersRoutes)
 app.use("/api/stats", statsRoutes)
 
-
 // anything else, send the single page
 // app.use((req, res, next) => {
 //     res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
@@ -67,5 +67,6 @@ app.use((error: any, req : Request, res: Response, next: NextFunction) => {
 
 
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}.`);
+    console.log(`Server is running on port ${PORT}.`)
+    logger.info(`Server is running on port ${PORT}.`)
   });
