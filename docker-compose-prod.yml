@@ -1,0 +1,28 @@
+version: "3.8"
+services:
+  tips-client:
+    image: tips-client
+    restart: unless-stopped
+    stdin_open: true
+    ports: 
+      - "80:80"
+      - "443:443"
+    networks:
+      - mern-app
+
+  tips-server:
+    image: tips-server
+    restart: unless-stopped
+    ports: 
+    - "8080:8080"
+    networks:
+      - mern-app
+
+
+networks:
+  mern-app:
+    driver: bridge
+
+# volumes:
+#   mongo-data:
+#     driver: local
