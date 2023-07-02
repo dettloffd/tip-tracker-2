@@ -1,0 +1,35 @@
+version: "3.8"
+services:
+  tips-client:
+    # image: tips-client
+    build: ./client/
+    stdin_open: true
+    tty: true
+    ports: 
+      - "3000:3000"
+    volumes:
+      # - "${PWD}/client:/app"  ---- Also work with absolute path; only need relative
+      - "./client:/app"
+      - "/app/node_modules"
+    networks:
+      - tips-app
+
+
+  tips-server:
+    # image: tips-server
+    build: ./server/
+    ports: 
+    - "8080:8080"
+    volumes:
+      - "./server:/app"
+      - "/app/node_modules"
+      - "${PWD}/server/logs:/app/logs"
+      # - "${PWD}/server:/app"  ---- Also work with absolute path; only need relative
+      
+      # - "/app/node_modules"
+    networks:
+      - tips-app
+
+networks:
+  tips-app:
+    driver: bridge

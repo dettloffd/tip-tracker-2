@@ -1,0 +1,30 @@
+version: "3.8"
+services:
+  tips-client:
+    image: tips-client
+    build: ./client/
+    stdin_open: true
+    tty: true
+    ports: 
+      - "3000:3000"
+    networks:
+      - mern-app
+
+
+  tips-server:
+    image: tips-server
+    build: ./server/
+    ports: 
+    - "8080:8080"
+    volumes:
+      - "${PWD}:/usr/src/app/logs"
+    networks:
+      - mern-app
+
+networks:
+  mern-app:
+    driver: bridge
+
+# volumes:
+#   mongo-data:
+#     driver: local
