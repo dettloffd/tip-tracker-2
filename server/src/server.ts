@@ -19,6 +19,9 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   next();
 });
 
+app.get('/status', (req, res) => {
+    res.status(200).send('OK');
+  });
 
 // any request which reaches backend not handled by below routes..
 // now handled by this route
