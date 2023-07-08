@@ -16,7 +16,7 @@ export const logger = winston.createLogger({
   ],
 });
 
-if (process.env.NODE_ENV !== 'PROD') {
+if (process.env.NODE_ENV !== 'prod') {
     logger.add(new winston.transports.Console({
     level: 'silly',
       format: combine(

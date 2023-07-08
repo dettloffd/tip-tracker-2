@@ -5,7 +5,7 @@ const path = require('path');
 
 // Port set in .env
 // Port 8080 as fallback
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
 
 const app = express();
 
@@ -20,7 +20,10 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 });
 
 app.get('/status', (req, res) => {
-    res.status(200).send('OK');
+    return res.status(200).json({
+        success: true,
+        message: "OK"
+    })
   });
 
 // any request which reaches backend not handled by below routes..
