@@ -20,6 +20,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 });
 
 app.get('/status', (req, res) => {
+    logger.info(`Returning status code 200 from /status endpoint`)
     return res.status(200).json({
         success: true,
         message: "OK"
@@ -73,6 +74,5 @@ app.use((error: any, req : Request, res: Response, next: NextFunction) => {
 
 
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}.`)
     logger.info(`Server is running on port ${PORT}.`)
   });
