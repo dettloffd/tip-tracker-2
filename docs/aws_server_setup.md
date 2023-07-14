@@ -8,7 +8,7 @@ Two securiy groups are setup for this -
 
 1. `TipsAppLoadBalancerSecurityGroup`
 
-This security group is what the load balancer uses - it takes all traffic on port 80 from all of the internet. The load balancer is the 'entrypoint' into the application. The outbound rules don't need to change but inbound rules should 
+This security group is what the load balancer uses - it takes all traffic on port 80 from all of the internet. The load balancer is the 'entrypoint' into the application. The outbound rules don't need to change but inbound rules should be as follows:
 
 ![Alt text](images/LBSecurityGroup.png)
 
@@ -21,7 +21,7 @@ This security group receives traffic from the load balancer. The load balancer i
 
 # Create Load Balancer
 
-* Make sure vpc is same as the cluster this will be in
+* Make sure vpc is same as the cluster the service will be in.
 
 ### In listeners and routing, pick 80 - we then need to create a target group
 
@@ -37,7 +37,7 @@ This security group receives traffic from the load balancer. The load balancer i
 
 ### Health check
 
-Make sure this goes somewhere in app which will return a 200 response. For me in `server.ts` I simply placed a `/status` route that returns 200 and OK:
+Make sure this goes somewhere in the application which will return a 200 response, otherwise the service will be shut down as it won't be considered 'healthy' without this. In `server.ts` I simply placed a `/status` route that returns 200 and OK:
 
 ```
 app.get('/status', (req, res) => {
@@ -58,11 +58,11 @@ app.get('/status', (req, res) => {
 
 ### Register targets
 
-This whole page is basically not being used; you'll see some stuff in here but none of it ends up in registered targets. Just click create.
+Don't worry about this as this will be configured later; just click create.
 
 ### Back in the load balancer
 
-Click refresh and select that target group.
+Click refresh and select the target group which was just created.
 
 # Task Definition
 
