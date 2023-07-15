@@ -45,7 +45,8 @@ const avgVarByTimeBetweenDates = async (req: Request, res: Response, next: NextF
           s.${timeVar}, 
           CAST(ROUND(AVG(s.${convertStatVar(statVar)})::numeric, 2) AS float) AS "${statVar}"
           FROM something s
-        GROUP BY s.${timeVar};
+        GROUP BY s.${timeVar}
+        ORDER BY s.${timeVar} ASC;
       `;
   
       const queryValues = [userId, startDate, endDate];
@@ -134,7 +135,8 @@ const avgVarByTimeBetweenDates = async (req: Request, res: Response, next: NextF
           s.${timeVar}, 
           CAST(ROUND(AVG(s.${convertStatVar(statVar)})::numeric, 2) AS float) AS "${statVar}"
           FROM something s
-        GROUP BY s.${timeVar};
+        GROUP BY s.${timeVar}
+        ORDER BY s.${timeVar} ASC;
       `;
   
       const queryValues = [userId];
