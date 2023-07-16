@@ -12,7 +12,7 @@ functions:
     handler: demoData.handler
     events:
       - schedule:
-          rate: rate(10 minutes)
+          rate: rate(3 days)
     environment:
       DB_CONNECTION_STRING: ${env:DB_CONNECTION_STRING}
 
