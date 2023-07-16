@@ -22,7 +22,9 @@ const getEntriesByUserId = async (req: Request, res: Response, next: NextFunctio
           SELECT entry_id, user_id, CAST(tips_total AS FLOAT), num_transactions, created_at, updated_at,
             TO_CHAR(date, 'YYYY-MM-DD') as date
           FROM entries 
-          WHERE user_id = $1`, [user_id]
+          WHERE user_id = $1
+          ORDER BY date DESC
+          `, [user_id]
         );
         entries = result.rows;
     } catch (err) {
@@ -60,7 +62,10 @@ const getEntriesByUserIdBetweenDates = async (req: Request, res: Response, next:
           SELECT entry_id, user_id, CAST(tips_total AS FLOAT), num_transactions, created_at, updated_at,
             TO_CHAR(date, 'YYYY-MM-DD') as date
           FROM entries 
-          WHERE user_id = $1 AND date BETWEEN $2 AND $3`, 
+          WHERE user_id = $1 
+          AND date BETWEEN $2 AND $3
+          ORDER BY date DESC
+          `, 
           [userId, startDate, endDate]
         );
         entries = result.rows;
