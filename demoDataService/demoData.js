@@ -19,7 +19,7 @@ function shouldSkipDay(day) {
     return day <= 4 ? chance <= 4 : chance <= 2;
 }
 
-let startDate = moment('2022-06-09');
+let startDate = moment('2019-06-09');
 let endDate = moment();
 
 while (startDate.isSameOrBefore(endDate)) {
