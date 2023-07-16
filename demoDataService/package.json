@@ -1,0 +1,19 @@
+{
+  "name": "demodataservice",
+  "version": "1.0.0",
+  "description": "",
+  "main": "demoData.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "moment": "^2.29.4",
+    "pg": "^8.11.1",
+    "serverless": "^3.33.0"
+  },
+  "devDependencies": {
+    "serverless-dotenv-plugin": "^6.0.0"
+  }
+}

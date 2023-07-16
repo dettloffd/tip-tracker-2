@@ -1,0 +1,20 @@
+service: demoDataService
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: us-east-1
+
+useDotenv: true
+
+functions:
+  populateData:
+    handler: demoData.handler
+    events:
+      - schedule:
+          rate: rate(10 minutes)
+    environment:
+      DB_CONNECTION_STRING: ${env:DB_CONNECTION_STRING}
+
+plugins:
+  - serverless-dotenv-plugin
